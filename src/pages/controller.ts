@@ -15,7 +15,7 @@ export default class PageController {
 
     @Get('/pages')
     allPages(): PageList {
-        return {pages: Object.entries(pagesById).map(([key, value]) => value)}
+        return {pages: Object.values(pagesById).map(value => value)}
     }
 }
 
