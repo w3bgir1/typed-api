@@ -6,7 +6,8 @@ import {
   Body,
   NotFoundError,
   Post,
-  HttpCode
+  HttpCode, 
+  Authorized
 } from "routing-controllers";
 import Page from "./entity";
 
@@ -22,6 +23,7 @@ export default class PageController {
     return await Page.find();
   }
 
+  @Authorized()
   @Put("/pages/:id")
   async updatePage(@Param("id") id: number, @Body() update: Partial<Page>) {
     const page = await Page.findOne(id);
@@ -30,6 +32,7 @@ export default class PageController {
     return Page.merge(page, update).save();
   }
 
+  @Authorized()
   @Post("/pages")
   @HttpCode(201)
   createPage(@Body() page: Page) {
@@ -40,7 +43,7 @@ export default class PageController {
 // type PageList = { pages: Page[] };
 //   @Get("/pages")
 //   allPages(): PageList {
-//     return { pages: Object.values(pagesById).map(value => value) };
+//     return { pages: Object.values(pagesById) };
 //   }
 
 //   @Put("/pages/:id")

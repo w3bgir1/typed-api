@@ -5,8 +5,7 @@ import {
   Put,
   Body,
   NotFoundError,
-  Post,
-  HttpCode
+  Post
 } from "routing-controllers";
 import User from "./entity";
 
@@ -31,8 +30,10 @@ export default class UserConroller {
   }
 
   @Post("/users")
-  @HttpCode(201)
-  createUser(@Body() user: User) {
-    return user.save();
+  async createUser(@Body() user: User) {
+    const { password, ...rest } = user;
+    const entity = User.create(rest);
+    await entity.setPassword(password);
+    return entity.save();
   }
 }
